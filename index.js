@@ -1,28 +1,17 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+
 app.use(express.json());
 
+// Import routes
+const goalsRouter = require('./routes/goals');
+app.use('/goals', goalsRouter);
+
 app.get('/', (req, res) => {
-  res.send('Hello Isaac! Backend is working.');
+  res.json({ message: 'Habit Tracker API is running' });
 });
 
-app.post('/goals', (req, res) => {
-  const { name, completed } = req.body;
-
-  const newGoal = {
-    id: Date.now(),
-    name,
-    completed: completed || false,
-  };
-
-  console.log('New goal created:', newGoal);
-
-  res.status(201).json(newGoal);
-});
-
-
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
-
